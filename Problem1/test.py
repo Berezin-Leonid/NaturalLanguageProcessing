@@ -5,6 +5,7 @@ pattern = re.compile(PASSWORD_REGEXP)
 regex_1_1 = re.compile(PASSWORD_REGEXP)
 regex_1_2 = re.compile(COLOR_REGEXP)
 token_pattern = re.compile(EXPRESSION_REGEXP, re.VERBOSE)
+regex_1_4 = re.compile(DATES_REGEXP)
 
 test_yes_1_1 = [
     "YesLength&#Over8",
@@ -102,6 +103,72 @@ expected = [
 ]
 
 
+test_yes_1_4 = [
+"14.09.2023",
+"5.02.1995",
+"01.4.2012",
+"14/09/2023",
+"5/02/1995",
+"01/4/2012",
+"14-09-2023",
+"5-02-1995",
+"01-4-2012",
+
+"31-05-4321",
+"21-12-1234",
+"19-01-3421",
+"10.10.1000",
+
+"2023.09.14",
+"1995.02.5",
+"2012.4.01",
+"2023/09/14",
+"1995/02/5",
+"2012/4/01",
+"2023-09-14",
+"1995-02-5",
+"2012-4-01",
+
+"14 сентября 2023",
+"5 февраля 1995",
+"01 апреля 2012",
+"12 апреля 0000",
+
+"September 14, 2023",
+"February 5, 1995",
+"April 01, 2012",
+
+"Sep 14, 2023",
+"Feb 5, 1995",
+"Apr 01, 2012",
+
+"2023, September 14",
+"1995, February 5",
+"2012, April 01",
+
+"2023, Sep 14",
+"1995, Feb 5",
+"2012, Apr 01",
+
+"20 января 1806",
+"1924, July 25",
+"26/09/1635",
+"3.1.1506",
+
+]
+
+test_no_1_4 = [
+"31-05.1242",
+"32-04-2345",
+
+"25.08-1002",
+"декабря 19, 1838",
+"8.20.1973",
+"Jun 7, -1563",
+
+]
+
+
 def test_1_1():
     good = True
 
@@ -153,9 +220,35 @@ def test_1_3():
     if good:
         print("Task 1.3 - OK")
 
+def test_1_4():
+    count = 0
+    good = True
+
+    for t in test_yes_1_4:
+        if not regex_1_4.fullmatch(t):
+            print(f"   {t} -> FAIL but must be OK")
+            good = False
+        else:
+            count += 1
+
+    for t in test_no_1_4:
+        if regex_1_4.fullmatch(t):
+            print(f"   {t} -> OK but must be FAIL")
+            good = False
+        else:
+            count += 1
+
+    if good:
+        print("Task 1.4 - OK")
+    print(f"   {count}/{len(test_yes_1_4) + len(test_no_1_4)}")
+
+
+
+
 if __name__ == "__main__":
     test_1_1()
     test_1_2()
     test_1_3()
+    test_1_4()
 
 
