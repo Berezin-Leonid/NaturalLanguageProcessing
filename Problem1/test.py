@@ -6,6 +6,7 @@ regex_1_1 = re.compile(PASSWORD_REGEXP)
 regex_1_2 = re.compile(COLOR_REGEXP)
 token_pattern = re.compile(EXPRESSION_REGEXP, re.VERBOSE)
 regex_1_4 = re.compile(DATES_REGEXP)
+regex_2_1 = re.compile(PARENTHESIS_REGEXP)
 
 test_yes_1_1 = [
     "YesLength&#Over8",
@@ -169,6 +170,44 @@ test_no_1_4 = [
 ]
 
 
+test_yes_2_1 = [
+    "",
+    "()",
+    "{}",
+    "[]",
+    "()()()[]{}",
+
+    "(())", # 2
+    "({})",
+    "{{}}",
+    "[[]]",
+    "{[]}",
+    "{[]()[]{}}",
+
+    "((()))", # 3
+    "(([]))",
+
+    "(((())))", # 4
+    "(((())))",
+
+    "{({({([({()})])})})}{{{{{{{{}}}}}}}}",
+    "{({({([({()})])})})}{{{{{{{{}}}}}}}}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}()()()()()()()()()[[[[[]]]]]",
+]
+
+test_no_2_1 = [
+    "(",
+    "[",
+    "{",
+    ")",
+    "]",
+    "}",
+
+    "(()))",
+    "[{{(}]",
+    #"",
+]
+
+
 def test_1_1():
     good = True
 
@@ -242,6 +281,27 @@ def test_1_4():
         print("Task 1.4 - OK")
     print(f"   {count}/{len(test_yes_1_4) + len(test_no_1_4)}")
 
+def test_2_1():
+    count = 0
+    good = True
+
+    for t in test_yes_2_1:
+        if not regex_2_1.fullmatch(t):
+            print(f"   {t} -> FAIL but must be OK")
+            good = False
+        else:
+            count += 1
+
+    for t in test_no_2_1:
+        if regex_2_1.fullmatch(t):
+            print(f"   {t} -> OK but must be FAIL")
+            good = False
+        else:
+            count += 1
+
+    if good:
+        print("Task 2.1 - OK")
+    print(f"   {count}/{len(test_yes_2_1) + len(test_no_2_1)}")
 
 
 
@@ -250,5 +310,7 @@ if __name__ == "__main__":
     test_1_2()
     test_1_3()
     test_1_4()
+
+    test_2_1()
 
 

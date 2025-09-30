@@ -19,8 +19,25 @@ Month_eng = r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|
 
 DATES_REGEXP = fr'^({Day}([./-]){Month}\3{Year}|{Year}([./-]){Month}\6{Day}|{Day} {Month_russian} {Year}|{Month_eng} {Day}, {Year}|{Year}, {Month_eng} {Day})$'
 
-PARENTHESIS_REGEXP = r''
+
+# Скобочная последовательность длины 1
+paren_len_1 = r'^(?:\(\)|\[\]|\{\})*$'
+
+def get_n_deepth_regexp(n):
+    final = r'(?:\(\)|\[\]|\{\})*'
+    for i in range(n - 1):
+        if i == n - 2:
+            final = fr'^(?:\({final}\)|\[{final}\]|{{{final}}})*$'
+        else:
+            final = fr'(?:\({final}\)|\[{final}\]|{{{final}}})*'
+
+    return final
+
+
+
+PARENTHESIS_REGEXP = get_n_deepth_regexp(n=10)
 SENTENCES_REGEXP = r''
 PERSONS_REGEXP = r''
 SERIES_REGEXP = r''
 
+#print(PARENTHESIS_REGEXP)
