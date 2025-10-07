@@ -303,14 +303,3 @@ def test_2_1():
         print("Task 2.1 - OK")
     print(f"   {count}/{len(test_yes_2_1) + len(test_no_2_1)}")
 
-
-
-if __name__ == "__main__":
-    test_1_1()
-    test_1_2()
-    test_1_3()
-    test_1_4()
-
-    test_2_1()
-
-
