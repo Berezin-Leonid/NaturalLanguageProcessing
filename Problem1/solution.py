@@ -20,6 +20,8 @@ Month_eng = r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|
 DATES_REGEXP = fr'^({Day}([./-]){Month}\3{Year}|{Year}([./-]){Month}\6{Day}|{Day} {Month_russian} {Year}|{Month_eng} {Day}, {Year}|{Year}, {Month_eng} {Day})$'
 
 
+# Second part
+
 # Скобочная последовательность длины 1
 paren_len_1 = r'^(?:\(\)|\[\]|\{\})*$'
 
@@ -35,9 +37,11 @@ def get_n_deepth_regexp(n):
 
 
 
-PARENTHESIS_REGEXP = get_n_deepth_regexp(n=10)
-SENTENCES_REGEXP = r''
-PERSONS_REGEXP = r''
-SERIES_REGEXP = r''
+PARENTHESIS_REGEXP = get_n_deepth_regexp(n=11)
 
-#print(PARENTHESIS_REGEXP)
+
+SENTENCES_REGEXP = r"(?P<sentence>(?:\d+\.\s*)?(?:\S.*?)(?:\:)(?:(?:\d+\.\s*)?(?:\S.*?)(?:\;)(?!\s*[а-яё])(?<![А-ЯЁ]\.)(?=(?:\s*|$)(?:[\'\"\«\(\+\-\=\%\^\$\#\@\~])*(?:\s*|$)(?:[А-ЯЁ0-9]|$)))+(?:(?:\d+\.\s*)?(?:\S.*?)(?:\.\.\.|[.!?]|$)(?!\s*[а-яё])(?<![А-ЯЁ]\.)(?=(?:\s*|$)(?:[\'\"\«\(\+\-\=\%\^\$\#\@\~])*(?:\s*|$)(?:[А-ЯЁ0-9]|$)))|(?:\d+\.\s*)?(?:\S.*?)(?:\.\.\.|[.!?]|$)(?!\s*[а-яё])(?<![А-ЯЁ]\.)(?=(?:\s*|$)(?:[\'\"\«\(\+\-\=\%\^\$\#\@\~])*(?:\s*|$)(?:[А-ЯЁ0-9]|$)))"
+
+PERSONS_REGEXP = r"(?P<person>(?:(?:[А-ЯЁ]\.\s*){1,2}[А-ЯЁ][а-яё]+|(?:[А-ЯЁ][а-яё]{2,}(?:-[А-ЯЁ][а-яё]{2,})?(?:\s+(?![А-ЯЁ]{2,}\b)[А-ЯЁ][а-яё]{2,}){1,2})|(?:[А-ЯЁ][а-яё]{2,}(?:-(?:[А-ЯЁ][а-яё]{2,}))?(?:ов|ев|ёв|ин|ын|ский|цкий|ова|ева|енко|юк|ко|ич|евич|ян|ук|ина|овна|ская|цкая|янна))))\b"
+
+SERIES_REGEXP = r'(?is)(?:<h1[^>]*>\s*<a[^>]+href="/series/\d+/"[^>]*>(?P<name>[^<]+)</a>\s*</h1>)|(?:Эпизоды:\s*</b>\s*</td>\s*<td[^>]*>(?P<episodes_count>\d+)</td>)|(?:Сезон\s+(?P<season>\d+)</h1>\s*(?P<season_year>\d{4})\s*,\s*эпизодов:\s*(?P<season_episodes>\d+))|(?:Эпизод\s+(?P<episode_number>\d+)</span>.*?<b>(?P<episode_name>[^<]+)</b>.*?<span[^>]*>(?P<episode_original_name>[^<]+)</span>.*?<td[^>]*>(?P<episode_date>\d{1,2}\s+[а-яё]+\s+\d{4})</td>)'

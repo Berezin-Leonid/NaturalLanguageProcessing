@@ -1,5 +1,5 @@
 import re
-from solution import *
+from Problem1.solution import PARENTHESIS_REGEXP, PASSWORD_REGEXP, COLOR_REGEXP, EXPRESSION_REGEXP, DATES_REGEXP
 
 pattern = re.compile(PASSWORD_REGEXP)
 regex_1_1 = re.compile(PASSWORD_REGEXP)
